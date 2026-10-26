@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Insight | Network Diagnostics</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">D</div>
+            <div>
+                <h1>DNS Insight</h1>
+                <p>DNS Resolution & Network Diagnostics</p>
+            </div>
+        </div>
+        <span class="status"><span class="dot"></span> Local Server</span>
+    </header>
+
+    <main class="container">
+        <section class="welcome">
+            <p class="eyebrow">DATA COMMUNICATION AND NETWORKING</p>
+            <h2>Understand your network,<br><span>one query at a time.</span></h2>
+            <p>Explore DNS records, observe resolution stages and analyze caching performance.</p>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p>Total cache hits</p>
+                <h3 id="hits">0</h3>
+            </article>
+            <article class="stat-card">
+                <p>Total cache misses</p>
+                <h3 id="misses">0</h3>
+            </article>
+            <article class="stat-card">
+                <p>Cache hit ratio</p>
+                <h3 id="hitRatio">0%</h3>
+            </article>
+            <article class="stat-card">
+                <p>Last lookup latency</p>
+                <h3 id="latency">-- ms</h3>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">DNS QUERY TOOL</p>
+                    <h2>Domain lookup</h2>
+                </div>
+                <span class="pill">Real DNS query</span>
+            </div>
+
+            <form id="lookupForm">
+                <div class="form-group domain-group">
+                    <label for="domain">Domain name</label>
+                    <input id="domain" type="text"
+                           placeholder="example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="recordType">Record type</label>
+                    <select id="recordType">
+                        <option>A — IPv4 address</option>
+                        <option>AAAA — IPv6 address</option>
+                        <option>CNAME — Alias</option>
+                        <option>MX — Mail server</option>
+                        <option>NS — Name server</option>
+                        <option>TXT — Text record</option>
+                    </select>
+                </div>
+
+                <button id="resolveBtn" type="submit">Resolve DNS</button>
+            </form>
+
+            <div id="message" class="message" role="status">
+                Enter a domain name to begin.
+            </div>
+
+            <div id="resultArea" hidden>
+                <h3>DNS response</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Domain</th>
+                                <th>Type</th>
+                                <th>Record value</th>
+                                <th>TTL (seconds)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsBody"></tbody>
+                    </table>
+                </div>
+                <p id="diagnosis" class="diagnosis"></p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">NETWORK VISUALIZATION</p>
+                    <h2>DNS resolution trace</h2>
+                </div>
+                <button id="traceBtn" class="secondary-btn" type="button">
+                    Play trace
+                </button>
+            </div>
+
+            <p class="muted">
+                Educational simulation of the DNS hierarchy, not a capture
+                of actual root or authoritative server traffic.
+            </p>
+
+            <div class="trace-list" id="traceList">
+                <div class="trace-node">1. Client</div>
+                <div class="trace-node">2. Recursive resolver</div>
+                <div class="trace-node">3. Root server</div>
+                <div class="trace-node">4. TLD server</div>
+                <div class="trace-node">5. Authoritative server</div>
+            </div>
+            <p id="traceMessage" class="message">
+                Press Play trace to begin.
+            </p>
+        </section>
+
+        <section class="charts-grid">
+            <article class="panel">
+                <p class="eyebrow">PERFORMANCE</p>
+                <h2>Lookup latency</h2>
+                <canvas id="latencyChart"></canvas>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">CACHE ANALYTICS</p>
+                <h2>Cache hits vs misses</h2>
+                <canvas id="cacheChart"></canvas>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CACHE MANAGEMENT</p>
+                    <h2>DNS cache</h2>
+                </div>
+                <button id="clearCacheBtn" class="secondary-btn" type="button">
+                    Clear cache
+                </button>
+            </div>
+            <p class="muted">
+                Perform the same query twice to observe cache behavior.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>DNS Insight · DCN Mini Project · Python + Flask + dnspython</p>
+    </footer>
+
+    <script src="/app.js"></script>
+</body>
+</html>
